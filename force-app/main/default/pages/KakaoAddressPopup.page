@@ -1,0 +1,299 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false">
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <title>주소 검색</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            overflow: hidden;
+            font-family: 'Salesforce Sans', Arial, sans-serif;
+            background: #ece6cc;
+        }
+        
+        #wrap { 
+            width: 100%; 
+            height: 100%;
+            overflow-y: auto;
+        }
+        
+        #detailSection {
+            display: none;
+            height: 100%;
+            overflow-y: auto;
+            padding: 24px;
+            background: #ffffff;
+        }
+        
+        .detail-content {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #57474a;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #57474a;
+        }
+        
+        .field {
+            margin-bottom: 20px;
+        }
+        
+        .label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #57474a;
+        }
+        
+        .value {
+            display: block;
+            padding: 12px 16px;
+            background: #faf8f3;
+            border: 1px solid #e5dfc8;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #57474a;
+            line-height: 1.5;
+        }
+        
+        .value-highlight {
+            background: #ece6cc;
+            border-color: #57474a;
+            font-weight: 500;
+        }
+        
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid #e5dfc8;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #57474a;
+            transition: all 0.2s;
+            background: #ffffff;
+        }
+        
+        input[type="text"]:focus {
+            outline: none;
+            border-color: #57474a;
+            box-shadow: 0 0 0 3px rgba(87, 71, 74, 0.1);
+        }
+        
+        input[type="text"]::placeholder {
+            color: #999;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid #e5dfc8;
+        }
+        
+        .btn {
+            flex: 1;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+            text-align: center;
+        }
+        
+        .btn-primary {
+            background: #57474a;
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            background: #3d3235;
+            box-shadow: 0 2px 4px rgba(87, 71, 74, 0.2);
+        }
+        
+        .btn-primary:active {
+            background: #2a2326;
+        }
+        
+        .btn-secondary {
+            background: #ffffff;
+            color: #57474a;
+            border: 1px solid #e5dfc8;
+        }
+        
+        .btn-secondary:hover {
+            background: #ece6cc;
+            border-color: #57474a;
+        }
+        
+        .btn:disabled {
+            background: #e5e5e5;
+            color: #999;
+            cursor: not-allowed;
+        }
+        
+        @media (max-width: 768px) {
+            #detailSection {
+                padding: 16px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="wrap"></div>
+    
+    <div id="detailSection">
+        <div class="detail-content">
+            <h2 class="section-title">📍 선택한 주소 확인</h2>
+            
+            <div class="field">
+                <label class="label">우편번호</label>
+                <span class="value value-highlight" id="zonecode"></span>
+            </div>
+            
+            <div class="field">
+                <label class="label">기본 주소</label>
+                <span class="value" id="address"></span>
+            </div>
+            
+            <div class="field">
+                <label class="label" for="detailAddress">
+                    상세 주소 <span style="color: #c23934;">*</span>
+                </label>
+                <input 
+                    type="text" 
+                    id="detailAddress" 
+                    placeholder="동/호수를 입력해주세요 (예: 101동 1502호)"
+                    autocomplete="off"
+                />
+            </div>
+            
+            <div class="button-group">
+                <button class="btn btn-secondary" onclick="goBack()">
+                    ← 다시 검색
+                </button>
+                <button class="btn btn-primary" id="confirmBtn" onclick="confirmAddress()">
+                    ✓ 이 주소로 확정
+                </button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="https://t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script>
+        var selectedData = null;
+        var postcodeInstance = null;
+        
+        function initPostcode() {
+            postcodeInstance = new daum.Postcode({
+                oncomplete: function(data) {
+                    selectedData = data;
+                    
+                    document.getElementById('zonecode').textContent = data.zonecode;
+                    document.getElementById('address').textContent = data.address;
+                    
+                    document.getElementById('wrap').style.display = 'none';
+                    document.getElementById('detailSection').style.display = 'block';
+                    
+                    var detailInput = document.getElementById('detailAddress');
+                    detailInput.value = '';
+                    setTimeout(function() {
+                        detailInput.focus();
+                    }, 100);
+                },
+                width: '100%',
+                height: '100%',
+                theme: {
+                    bgColor: '#ece6cc',           // 베이지 배경
+                    searchBgColor: '#57474a',     // 브라운 검색창 배경
+                    contentBgColor: '#FFFFFF',    // 흰색 결과 리스트 배경
+                    pageBgColor: '#faf8f3',       // 연한 베이지
+                    textColor: '#333333',         // ✅ 결과 리스트 텍스트 (검은색)
+                    queryTextColor: '#FFFFFF',    // ✅ 검색창 입력 텍스트만 흰색!
+                    postcodeTextColor: '#8b6f47', // 골든 브라운 우편번호
+                    emphTextColor: '#0084FF',     // 파란색 강조 (링크)
+                    outlineColor: '#e5dfc8'       // 연한 베이지 테두리
+                },
+                hideMapBtn: true,
+                hideEngBtn: true,
+                autoMapping: true,
+                shorthand: false
+            });
+            
+            postcodeInstance.embed(document.getElementById('wrap'));
+        }
+        
+        initPostcode();
+        
+        function goBack() {
+            document.getElementById('detailSection').style.display = 'none';
+            document.getElementById('wrap').style.display = 'block';
+            selectedData = null;
+            
+            if (postcodeInstance) {
+                postcodeInstance = null;
+            }
+            initPostcode();
+        }
+        
+        function confirmAddress() {
+            var detailAddress = document.getElementById('detailAddress').value.trim();
+            
+            if (!detailAddress) {
+                alert('상세 주소를 입력해주세요.');
+                document.getElementById('detailAddress').focus();
+                return;
+            }
+            
+            if (selectedData && window.opener) {
+                window.opener.postMessage({
+                    type: 'KAKAO_ADDRESS',
+                    data: {
+                        zonecode: selectedData.zonecode,
+                        address: selectedData.address,
+                        roadAddress: selectedData.roadAddress,
+                        jibunAddress: selectedData.jibunAddress,
+                        detailAddress: detailAddress
+                    }
+                }, '*');
+                
+                window.close();
+            }
+        }
+        
+        document.getElementById('detailAddress').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                confirmAddress();
+            }
+        });
+        
+        document.getElementById('detailAddress').addEventListener('input', function() {
+            var confirmBtn = document.getElementById('confirmBtn');
+            if (this.value.trim()) {
+                confirmBtn.style.opacity = '1';
+            } else {
+                confirmBtn.style.opacity = '0.7';
+            }
+        });
+    </script>
+</body>
+</html>
+</apex:page>

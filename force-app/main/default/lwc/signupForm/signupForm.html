@@ -1,0 +1,45 @@
+<template>
+    <section class="signup-box">
+        <h2>회원가입</h2>
+
+        <lightning-input
+            label="이름"
+            value={name}
+            onchange={handleNameChange}
+            required>
+        </lightning-input>
+
+        <lightning-input
+            label="이메일"
+            type="email"
+            value={email}
+            onchange={handleEmailChange}
+            required>
+        </lightning-input>
+
+        <lightning-input
+        type="password"
+        name="password"
+        label="비밀번호"
+        value={password}
+        onchange={handleChange}
+        required>
+      </lightning-input>
+
+      <lightning-input
+        type="password"
+        name="password2"
+        label="비밀번호 확인"
+        value={password2}
+        onchange={handleChange}
+        required>
+      </lightning-input>
+
+        <lightning-button
+            label="회원가입"
+            variant="brand"
+            onclick={handleSignup}
+            class="slds-m-top_medium">
+        </lightning-button>
+    </section>
+</template>

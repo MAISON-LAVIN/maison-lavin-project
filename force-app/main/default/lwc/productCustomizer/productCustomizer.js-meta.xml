@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>65.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__FlowScreen</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__FlowScreen">
+            <property name="selectedProductId" type="String" label="Selected Product ID" role="outputOnly"/>
+            <property name="initials" type="String" label="Initials" role="outputOnly"/>
+            <property name="selectedColor" type="String" label="Selected Color" role="outputOnly"/>
+            <property name="selectedPosition" type="String" label="Selected Position" role="outputOnly"/>
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>

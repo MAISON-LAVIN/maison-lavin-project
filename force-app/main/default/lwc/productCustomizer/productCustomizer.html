@@ -1,0 +1,96 @@
+<template>
+    <lightning-card title="제품 커스터마이징" icon-name="custom:custom63">
+        
+        <div class="slds-p-around_medium">
+            
+            <!-- 제품 선택 섹션 ⭐ NEW! -->
+            <div class="product-selection slds-m-bottom_large">
+                <lightning-record-picker
+                    label="제품 선택"
+                    placeholder="제품을 검색하세요"
+                    object-api-name="Product2"
+                    value={selectedProductId}
+                    onchange={handleProductSelect}>
+                </lightning-record-picker>
+            </div>
+            
+            <!-- 제품 선택 후 표시되는 영역 -->
+            <template if:true={hasProductSelected}>
+                
+                <!-- 입력 섹션 -->
+                <div class="input-section">
+                    
+                    <!-- 이니셜 입력 -->
+                    <lightning-input 
+                        label="이니셜 입력" 
+                        value={initials}
+                        onkeyup={handleInitialsChange}
+                        placeholder="예: KES"
+                        max-length="10"
+                        class="slds-m-bottom_small">
+                    </lightning-input>
+                    
+                    <!-- 색상 선택 -->
+                    <lightning-input 
+                        type="color"
+                        label="이니셜 색상"
+                        value={selectedColor}
+                        onchange={handleColorChange}
+                        class="slds-m-bottom_small">
+                    </lightning-input>
+                    
+                    <!-- 위치 선택 -->
+                    <lightning-combobox
+                        if:true={hasPositionOptions}
+                        label="이니셜 위치"
+                        options={positionOptions}
+                        value={selectedPosition}
+                        onchange={handlePositionChange}
+                        placeholder="위치를 선택하세요"
+                        class="slds-m-bottom_small"
+                        required>
+                    </lightning-combobox>
+                    
+                </div>
+                
+                <!-- 미리보기 섹션 -->
+                <div class="preview-section">
+                    <h3 class="slds-text-heading_small slds-m-bottom_small">미리보기</h3>
+                    
+                    <div class="preview-container">
+                        <!-- 제품 이미지 -->
+                        <img if:true={productImageUrl} 
+                             src={productImageUrl} 
+                             alt="제품 이미지"
+                             class="product-image"/>
+                        
+                        <!-- 이미지 로딩 중 -->
+                        <div if:false={productImageUrl} class="image-placeholder">
+                            <lightning-spinner alternative-text="로딩 중" size="small"></lightning-spinner>
+                        </div>
+                        
+                        <!-- 이니셜 오버레이 -->
+                        <template if:true={showInitials}>
+                            <div class="initials-overlay" style={initialsStyleString}>
+                                {initials}
+                            </div>
+                        </template>
+                    </div>
+                </div>
+                
+            </template>
+            
+            <!-- 제품 미선택 시 안내 메시지 -->
+            <template if:false={hasProductSelected}>
+                <div class="slds-text-align_center slds-p-around_large">
+                    <lightning-icon icon-name="utility:search" size="large"></lightning-icon>
+                    <p class="slds-text-heading_small slds-m-top_small">
+                        제품을 선택해주세요
+                    </p>
+                </div>
+            </template>
+            
+        </div>
+        
+    </lightning-card>
+</template>

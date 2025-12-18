@@ -1,0 +1,59 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false">
+<style>
+    body { font-family: Arial; max-width: 500px; margin: 50px auto; }
+    input { width: 100%; padding: 10px; margin: 10px 0; }
+    button { background: #0070d2; color: white; padding: 15px; border: none; width: 100%; cursor: pointer; }
+    .message { margin-top: 20px; padding: 15px; border-radius: 5px; }
+    .success { background: #d4edda; color: #155724; }
+    .error { background: #f8d7da; color: #721c24; }
+</style>
+
+<div>
+    <h2>팝업 사전등록</h2>
+    <form id="leadForm">
+        <input type="text" id="lastName" placeholder="이름" required="required" />
+        <input type="email" id="email" placeholder="이메일" required="required" />
+        <input type="tel" id="phone" placeholder="전화번호" required="required" />
+        <input type="text" id="company" placeholder="회사명" required="required" />
+        <button type="submit">등록하기</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        document.getElementById('leadForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const data = {
+                lastName: document.getElementById('lastName').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                company: document.getElementById('company').value
+            };
+            
+            try {
+                // Salesforce REST API 호출
+                const response = await fetch('https://orgfarm-76ba81e7f8-dev-ed.develop.my.salesforce-sites.com/services/apexrest/api/lead/', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+                
+                const result = await response.json();
+                
+                // 결과 표시
+                const resultDiv = document.getElementById('result');
+                resultDiv.className = result.success ? 'message success' : 'message error';
+                resultDiv.textContent = result.message;
+                
+                if (result.success) {
+                    document.getElementById('leadForm').reset();
+                }
+                
+            } catch (error) {
+                document.getElementById('result').className = 'message error';
+                document.getElementById('result').textContent = '오류가 발생했습니다.';
+            }
+        });
+    </script>
+</div>
+</apex:page>

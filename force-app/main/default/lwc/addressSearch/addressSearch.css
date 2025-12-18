@@ -1,0 +1,93 @@
+.address-container {
+    width: 100%;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.slds-form-element {
+    width: 850px;
+    margin-left: 120px;
+}
+
+.slds-text-align_right {
+    text-align: right;
+}
+
+.address-wrapper {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #dddbda;
+    width: 100%;
+}
+
+.address-display {
+    flex: 1;
+    min-height: 30px;
+    display: flex;
+    align-items: center;
+    padding-left: 12px;
+}
+
+.address-text {
+    color: #181818;
+    font-size: 13px;
+    line-height: 1.5;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.address-text:empty::before {
+    content: "주소 검색 버튼을 눌러주세요";
+    color: #706e6b;
+}
+
+.search-icon-button {
+    flex-shrink: 0;
+    margin-left: 8px;
+}
+
+lightning-button-icon:hover::part(button) {
+    color: #005fb2;
+}
+
+/* 지도 영역 */
+.map-container {
+    margin-top: 16px;
+    width: 700px;
+}
+
+.map-iframe {
+    width: 100%;
+    height: 300px;
+    border: 1px solid #dddbda;
+    border-radius: 4px;
+    display: block;
+}
+
+/* 지도 없을 때 플레이스홀더 */
+.map-placeholder {
+    width: 100%;
+    height: 300px;
+    border: 1px dashed #dddbda;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: #f9f9f9;
+    gap: 12px;
+}
+
+.placeholder-icon {
+    opacity: 0.5;
+}
+
+.placeholder-text {
+    font-size: 13px;
+    color: #706e6b;
+    margin: 0;
+}

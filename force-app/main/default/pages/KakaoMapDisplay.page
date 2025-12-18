@@ -1,0 +1,132 @@
+<apex:page showHeader="false" sidebar="false" standardStylesheets="false" docType="html-5.0">
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <style>
+        html, body { 
+            width: 100%; 
+            height: 100%; 
+            margin: 0; 
+            padding: 0; 
+            overflow: hidden; 
+        }
+        #map { 
+            width: 100%; 
+            height: 100%; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            z-index: 1; 
+        }
+        #status-log {
+            position: absolute; 
+            top: 10px; 
+            left: 10px; 
+            z-index: 999;
+            background: rgba(255,255,255,0.9); 
+            padding: 10px; 
+            border: 1px solid #ccc;
+            font-size: 12px; 
+            max-width: 80%;
+        }
+    </style>
+</head>
+<body>
+    <div id="status-log">지도 초기화 대기 중...</div>
+    <div id="map"></div>
+    
+    <script>
+        function log(msg) {
+            var logDiv = document.getElementById('status-log');
+            logDiv.innerHTML += '&lt;br/&gt;' + msg;
+            console.log('[KakaoMapVF] ' + msg);
+        }
+
+        try {
+            var urlParams = new URLSearchParams(window.location.search);
+            var address = urlParams.get('address');
+            
+            log('받은 주소: ' + address);
+            
+            if (!address) {
+                log('❌ 주소 파라미터가 없습니다.');
+            } else {
+                // 카카오맵 스크립트 동적 로드
+                var script = document.createElement('script');
+                script.type = 'text/javascript';
+                script.src = 'https://dapi.kakao.com/v2/maps/sdk.js?appkey=f8932e6c61d79315b4f60918ab8c5e7b&amp;libraries=services&amp;autoload=false';
+                
+                script.onload = function() {
+                    log('스크립트 로드 완료');
+                    
+                    if (typeof kakao === 'undefined') {
+                        log('❌ kakao 객체 없음');
+                        return;
+                    }
+                    
+                    window.kakao.maps.load(function() {
+                        log('kakao.maps.load 실행');
+                        
+                        var container = document.getElementById('map');
+                        
+                        // 기본 지도 생성 (제주도 좌표)
+                        var options = {
+                            center: new kakao.maps.LatLng(33.450701, 126.570667),
+                            level: 3
+                        };
+
+                        try {
+                            var map = new kakao.maps.Map(container, options);
+                            log('지도 생성 성공');
+
+                            var geocoder = new kakao.maps.services.Geocoder();
+                            
+                            log('주소 검색 시작: ' + address);
+                            
+                            geocoder.addressSearch(address, function(result, status) {
+                                log('검색 결과 Status: ' + status);
+                                
+                                if (status === kakao.maps.services.Status.OK) {
+                                    log('주소 검색 성공!');
+                                    
+                                    var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+                                    log('좌표: ' + result[0].y + ', ' + result[0].x);
+                                    
+                                    // 지도 중심 이동
+                                    map.setCenter(coords);
+                                    
+                                    // 마커 표시
+                                    new kakao.maps.Marker({
+                                        map: map,
+                                        position: coords
+                                    });
+                                    
+                                    log('✅ 완료!');
+                                    
+                                    // 3초 후 로그 숨김
+                                    setTimeout(function() {
+                                        document.getElementById('status-log').style.display = 'none';
+                                    }, 3000);
+                                } else {
+                                    log('❌ 주소 검색 실패: ' + status);
+                                }
+                            });
+                        } catch (e) {
+                            log('❌ 지도 생성 에러: ' + e.message);
+                        }
+                    });
+                };
+                
+                script.onerror = function(e) {
+                    log('❌ 스크립트 로드 실패 - CSP 차단');
+                };
+                
+                document.head.appendChild(script);
+            }
+        } catch (e) {
+            log('❌ 치명적 오류: ' + e.message);
+        }
+    </script>
+</body>
+</html>
+</apex:page>
