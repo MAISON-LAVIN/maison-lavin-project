@@ -91,3 +91,14 @@ lightning-button-icon:hover::part(button) {
     color: #706e6b;
     margin: 0;
 }
+
+.cover-top {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 100%;
+    height: 70px;
+    background-color: rgb(255, 255, 255);
+    z-index: 10;
+    pointer-events: none;
+}
