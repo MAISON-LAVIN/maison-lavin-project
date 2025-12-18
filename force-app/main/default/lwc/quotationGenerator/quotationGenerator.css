@@ -1,0 +1,173 @@
+/* 전체 컨테이너 */
+.slds-card {
+    border-radius: 8px;
+}
+
+/* 디자인 옵션 체크박스 영역 */
+.design-options {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+}
+
+/* 시안 파일 그리드 */
+.design-files-grid {
+    display: flex;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 16px;
+    padding: 16px;
+    background: #f3f3f3;
+    border-radius: 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* 시안 파일 아이템 */
+.design-file-item {
+    flex: 0 0 150px;
+    cursor: grab;
+    border: 2px solid #dddbda;
+    border-radius: 8px;
+    padding: 8px;
+    background: white;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.design-file-item:hover {
+    border-color: #000000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+}
+
+.design-file-item:active {
+    cursor: grabbing;
+}
+
+.design-file-item img {
+    width: 50%;
+    height: 120px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.file-title {
+    font-size: 0.75rem;
+    color: #3e3e3c;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* 드롭 영역 */
+.drop-zone {
+    min-height: 250px;
+    border: 3px dashed #dddbda;
+    border-radius: 8px;
+    background: #fafaf9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    padding: 24px;
+}
+
+.drop-zone:hover {
+    border-color: #4e1000;
+    background: #f3f3f3;
+}
+
+/* 드래그 오버 상태 */
+.drop-zone.drag-over {
+    border-color: #4e1000;
+    background: #e8f4ff;
+    border-style: solid;
+}
+
+/* 시안 선택됨 상태 */
+.drop-zone.has-design {
+    border-style: solid;
+    border-color: #4e1000;
+    background: white;
+}
+
+/* 선택된 시안 미리보기 */
+.selected-design-preview {
+    max-width: 100%;
+    max-height: 200px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* 금액 테이블 */
+.slds-table_borderless tbody tr {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.total-row {
+    border-top: 2px solid #3e3e3c !important;
+    font-size: 1.1rem;
+}
+
+.total-row td {
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .design-files-grid {
+        grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+        gap: 12px;
+    }
+    
+    .design-file-item img {
+        height: 100px;
+    }
+    
+    .drop-zone {
+        min-height: 200px;
+    }
+    
+    .selected-design-preview {
+        max-height: 200px;
+    }
+}
+
+/* 애니메이션 */
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.drop-zone.drag-over {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* 추가 스타일링 */
+.slds-box.slds-theme_shade {
+    background: #e6e2d1;
+    border: none;
+}
+
+.slds-box.slds-theme_default {
+    border: none;
+}
+
+/* 버튼 스타일 */
+lightning-button {
+    width: 100%;
+}
+
+/* 체크박스 레이블 */
+lightning-input {
+    font-weight: 500;
+}
