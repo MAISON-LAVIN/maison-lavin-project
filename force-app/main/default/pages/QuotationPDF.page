@@ -3,226 +3,317 @@
         <style>
             @page {
                 size: A4;
-                margin: 1.5cm;
+                margin: 2cm 3cm;
             }
             
             * {
                 box-sizing: border-box;
-            }
-            
-            body {
-                font-family: 'Malgun Gothic', 'Dotum', sans-serif;
-                font-size: 10pt;
-                line-height: 1.4;
-            }
-            
-            .header {
-                text-align: center;
-                font-size: 22pt;
-                font-weight: bold;
-                margin-bottom: 25px;
-                padding-bottom: 12px;
-                border-bottom: 3px solid #000;
-            }
-            
-            .section-title {
-                font-size: 12pt;
-                font-weight: bold;
-                margin: 15px 0 8px 0;
-                padding-bottom: 5px;
-                border-bottom: 1px solid #666;
-            }
-            
-            .info-table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-bottom: 15px;
-                font-size: 9pt;
-            }
-            
-            .info-table td {
-                padding: 6px 8px;
-                border: 1px solid #999;
-            }
-            
-            .info-table .label {
-                background-color: #e8e8e8;
-                font-weight: bold;
-                width: 20%;
-            }
-            
-            .quotation-table {
-                width: 100%;
-                border-collapse: collapse;
-                margin: 15px 0;
-                font-size: 9pt;
-            }
-            
-            .quotation-table th {
-                background-color: #333;
-                color: white;
-                padding: 8px 5px;
-                text-align: center;
-                font-weight: bold;
-            }
-            
-            .quotation-table td {
-                border: 1px solid #999;
-                padding: 8px 5px;
-                text-align: center;
-            }
-            
-            .total-box {
-                text-align: right;
-                font-size: 13pt;
-                font-weight: bold;
-                margin: 15px 0;
-                padding: 12px;
-                background-color: #f5f5f5;
-                border: 2px solid #000;
-            }
-            
-            .image-section {
-                margin-top: 20px;
-            }
-            
-            .image-box {
-                text-align: center;
-                margin: 15px 0;
-                page-break-inside: avoid;
-            }
-            
-.image-box img {
-    width: 300px !important;
-    height: 250px !important;
-    object-fit: contain;
-    border: 1px solid #ccc;
-    padding: 3px;
-}
-            
-            .image-title {
-                font-size: 9pt;
-                color: #666;
-                margin-bottom: 5px;
-            }
-            
-            .notes {
-                margin-top: 25px;
-                padding-top: 12px;
-                border-top: 1px solid #999;
-                font-size: 8pt;
-                color: #555;
-            }
-            
-            .notes h3 {
-                font-size: 10pt;
-                margin-bottom: 6px;
-                color: #000;
-            }
-            
-            .notes ul {
-                margin: 5px 0 5px 15px;
+                margin: 0;
                 padding: 0;
             }
             
-            .notes li {
-                margin-bottom: 3px;
+            body {
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 10pt;
+                line-height: 1.6;
+                color: #000;
+            }
+            
+            .company-header {
+                text-align: center;
+                margin-bottom: 40px;
+            }
+            
+            .company-logo {
+                border: 2px solid #000;
+                padding: 15px 40px;
+                display: inline-block;
+                margin-bottom: 10px;
+            }
+            
+            .company-name {
+                font-size: 18pt;
+                font-weight: bold;
+                letter-spacing: 3px;
+            }
+            
+            .company-subtitle {
+                font-size: 8pt;
+                letter-spacing: 2px;
+                margin-top: 5px;
+            }
+            
+            .company-tagline {
+                font-size: 7pt;
+                letter-spacing: 1px;
+                margin-top: 5px;
+                color: #666;
+            }
+            
+            .company-info {
+                text-align: right;
+                font-size: 8pt;
+                margin-bottom: 10px;
+                line-height: 1.5;
+            }
+            
+            .divider {
+                border-top: 1px solid #000;
+                margin: 20px 0;
+            }
+            
+            .invoice-title {
+                font-size: 11pt;
+                margin-bottom: 5px;
+            }
+
+            .invoice-date {
+                font-size: 9pt;
+                margin-bottom: 20px;
+            }
+            
+            .invoice-meta {
+                display: table;
+                width: 100%;
+                margin-bottom: 40px;
+                font-size: 9pt;
+            }
+            
+            .invoice-meta-row {
+                display: table-row;
+            }
+            
+            .invoice-meta-row > div {
+                display: table-cell;
+                padding: 2px 0;
+            }
+            
+            .invoice-label {
+                width: 35%;
+            }
+            
+            .invoice-value {
+                width: 65%;
+                text-align: right;
+            }
+            
+            .quotation-line {
+                border-bottom: 1px solid #ddd;
+                padding: 15px 0;
+                display: table;
+                width: 100%;
+                font-size: 9pt;
+            }
+            
+            .quotation-line-row {
+                display: table-row;
+            }
+            
+            .quotation-line-row > div {
+                display: table-cell;
+                padding: 3px 0;
+            }
+            
+            .item-number {
+                width: 10%;
+            }
+            
+            .item-description {
+                width: 55%;
+            }
+            
+            .item-price {
+                width: 35%;
+                text-align: right;
+            }
+            
+            .amounts {
+                margin-top: 30px;
+                font-size: 9pt;
+            }
+            
+            .amount-row {
+                text-align: right;
+                padding: 5px 0;
+            }
+            
+            .amount-label {
+                display: inline-block;
+                width: 150px;
+                text-align: left;
+            }
+            
+            .amount-value {
+                display: inline-block;
+                width: 120px;
+                text-align: right;
+            }
+            
+            .total-row {
+                border-top: 1px solid #000;
+                margin-top: 10px;
+                padding-top: 10px;
+                font-weight: bold;
+            }
+            
+            .payment-info {
+                margin-top: 40px;
+                font-size: 9pt;
+            }
+            
+            .design-section {
+                page-break-before: always;
+                margin-top: 40px;
+            }
+            
+            .design-title {
+                font-size: 11pt;
+                margin-bottom: 30px;
+                padding-bottom: 10px;
+                border-bottom: 1px solid #000;
+            }
+            
+            .design-images {
+                margin-top: 30px;
+            }
+            
+            .image-container {
+                text-align: center;
+                margin: 30px 0;
+                page-break-inside: avoid;
+            }
+            
+            .image-container img {
+                max-width: 400px;
+                max-height: 350px;
+                border: 1px solid #ddd;
+                padding: 10px;
+            }
+            
+            .image-caption {
+                font-size: 8pt;
+                color: #666;
+                margin-top: 10px;
+            }
+            
+            .footer-notes {
+                margin-top: 60px;
+                font-size: 7pt;
+                text-align: center;
+                color: #666;
+                line-height: 1.8;
             }
         </style>
     </head>
     
     <body>
-        <!-- 헤더 -->
-        <div class="header">Quotation</div>
-        
-        <!-- 기본 정보 -->
-        <table class="info-table">
-            <tr>
-                <td class="label">Quotation Number</td>
-                <td>QT-{!Opportunity.Id}</td>
-                <td class="label">Date</td>
-                <td>
-                    <apex:outputText value="{0,date,yyyy MM dd}">
-                        <apex:param value="{!TODAY()}" />
-                    </apex:outputText>
-                </td>
-            </tr>
-            <tr>
-                <td class="label">Customer Name</td>
-                <td>{!Opportunity.Account.Name}</td>
-                <td class="label">CA</td>
-                <td>{!Opportunity.Owner.Name}</td>
-            </tr>
-            <tr>
-                <td class="label">Project Name</td>
-                <td colspan="3">{!Opportunity.Name}</td>
-            </tr>
-        </table>
-        
-        <!-- 견적 내역 -->
-        <div class="section-title">Describtion</div>
-        <table class="quotation-table">
-            <tr>
-                <th style="width: 8%;">No</th>
-                <th style="width: 40%;">Product</th>
-                <th style="width: 13%;">QTY</th>
-                <th style="width: 19%;">Price</th>
-                <th style="width: 20%;">Total Amount</th>
-            </tr>
-            <tr>
-                <td>1</td>
-                <td style="text-align: left; padding-left: 8px;">{!Opportunity.Name}</td>
-                <td>1식</td>
-                <td style="text-align: right; padding-right: 8px;">
-                    <apex:outputText value="{0, number, ###,###,###}">
-                        <apex:param value="{!Opportunity.Total_Amount__c}" />
-                    </apex:outputText>원
-                </td>
-                <td style="text-align: right; padding-right: 8px;">
-                    <apex:outputText value="{0, number, ###,###,###}">
-                        <apex:param value="{!Opportunity.Total_Amount__c}" />
-                    </apex:outputText>원
-                </td>
-            </tr>
-        </table>
-        
-        <!-- 총액 -->
-        <div class="total-box">
-            총 견적금액: 
-            <apex:outputText value="{0, number, ###,###,###}">
-                <apex:param value="{!Opportunity.Total_Amount__c}" />
-            </apex:outputText>원
+        <!-- Company Header -->
+        <div class="company-header">
+            <div class="company-logo">
+                <div class="company-name">MAISON LAVIN</div>
+            </div>
+            <div class="company-tagline">ESTABLISHED 1989</div>
         </div>
         
-        <!-- 디자인 시안 (별도 페이지) -->
-        <div style="page-break-before: always;">
-            <div class="section-title">디자인 시안</div>
-            
-            <div class="image-section">
-                <apex:repeat value="{!Opportunity.ContentDocumentLinks}" var="cdl">
-                    <div class="image-box">
-                        <div class="image-title">{!cdl.ContentDocument.Title}</div>
-                        <img src="/sfc/servlet.shepherd/version/download/{!cdl.ContentDocument.LatestPublishedVersionId}" />
-                    </div>
-                </apex:repeat>
+        <!-- Company Info -->
+        <div class="company-info">
+            Company: Maison Lavin Korea Inc.<br/>
+            Representative: Kevin Kang<br/>
+            <br/>
+            www.maisonlavin.com
+        </div>
+        
+        <div class="divider"></div>
+        
+        <!-- Invoice Info -->
+        <div class="invoice-title">*Invoice*</div>
+        <div class="invoice-date">
+            <apex:outputText value="{0, date, MMMM dd yyyy}">
+                <apex:param value="{!TODAY()}" />
+            </apex:outputText>
+        </div>
+        
+        <div class="invoice-meta">
+            <div class="invoice-meta-row">
+                <div class="invoice-label">Quotation No.</div>
+                <div class="invoice-value">QT-{!Opportunity.Id}</div>
+            </div>
+            <div class="invoice-meta-row">
+                <div class="invoice-label">Customer</div>
+                <div class="invoice-value">{!Opportunity.Account.Name}</div>
+            </div>
+            <div class="invoice-meta-row">
+                <div class="invoice-label">Manager</div>
+                <div class="invoice-value">{!Opportunity.Owner.Name}</div>
             </div>
         </div>
         
-        <!-- 안내사항 -->
-        <div class="notes">
-            <h3>※ 안내사항</h3>
-            <ul>
-                <li>본 견적서는 발행일로부터 30일간 유효합니다.</li>
-                <li>최종 제품은 시안과 다소 차이가 있을 수 있습니다.</li>
-                <li>제작 기간은 최종 디자인 확정 후 2-3주 소요됩니다.</li>
-                <li>문의사항은 담당자에게 연락주시기 바랍니다.</li>
-            </ul>
+        <!-- Quotation Line -->
+        <div class="quotation-line">
+            <div class="quotation-line-row">
+                <div class="item-number">1</div>
+                <div class="item-description">{!Opportunity.Name}</div>
+                <div class="item-price">
+                    <apex:outputText value="{0, number, ###,###,###}">
+                        <apex:param value="{!Opportunity.Total_Amount__c}" />
+                    </apex:outputText>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Amount Summary -->
+        <div class="amounts">
+            <div class="amount-row">
+                <span class="amount-label">SUB TOTAL</span>
+                <span class="amount-value">KRW</span>
+                <span class="amount-value">
+                    <apex:outputText value="{0, number, ###,###,###}">
+                        <apex:param value="{!Opportunity.Total_Amount__c}" />
+                    </apex:outputText>
+                </span>
+            </div>
             
-            <div style="margin-top: 12px; text-align: center;">
-                <apex:outputPanel rendered="{!NOT(ISBLANK(Opportunity.Owner.Phone))}">
-                    담당자 연락처: {!Opportunity.Owner.Phone} / 
-                </apex:outputPanel>
-                이메일: {!Opportunity.Owner.Email}
+            <div class="amount-row total-row">
+                <span class="amount-label">TOTAL</span>
+                <span class="amount-value">KRW</span>
+                <span class="amount-value">
+                    <apex:outputText value="{0, number, ###,###,###}">
+                        <apex:param value="{!Opportunity.Total_Amount__c}" />
+                    </apex:outputText>
+                </span>
+            </div>
+            
+            <div class="amount-row" style="margin-top: 20px;">
+                <span class="amount-value"></span>
+                <span class="amount-value"></span>
+                <span class="amount-value">KRW</span>
+            </div>
+        </div>
+        
+        <!-- Footer Notes -->
+        <div class="footer-notes">
+            This quotation is valid for 30 days from the date of issue.<br/>
+            Product exchanges are available within 7 days of purchase for unused items in original condition.<br/>
+            Exchange must be made within 14 days with the original invoice.<br/>
+            Products damaged due to mishandling are not eligible for exchange.
+        </div>
+        
+        <!-- Design Proposal (Page 2) -->
+        <div class="design-section">
+            <div class="design-title">Design Proposal</div>
+            
+            <div class="design-images">
+                <apex:repeat value="{!Opportunity.ContentDocumentLinks}" var="cdl">
+                    <div class="image-container">
+                        <img src="/sfc/servlet.shepherd/version/download/{!cdl.ContentDocument.LatestPublishedVersionId}" />
+                        <div class="image-caption">{!cdl.ContentDocument.Title}</div>
+                    </div>
+                </apex:repeat>
+            </div>
+            
+            <div class="footer-notes" style="margin-top: 80px;">
+                Final product may vary slightly from the design proposal.<br/>
+                Production time is 2-3 weeks after final design approval.<br/>
             </div>
         </div>
     </body>
