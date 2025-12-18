@@ -59,7 +59,8 @@ public with sharing class ExperienceOrderService {
             StageName = '주문접수',
             CloseDate = Date.today(),
             AccountId = acc.Id,
-            Source_Lead__c = l.Id
+            Source_Lead__c = l.Id,
+            Design_Type__c = '주문제작'
         );
         insert opp;
 
