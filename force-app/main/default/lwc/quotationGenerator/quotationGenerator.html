@@ -1,0 +1,122 @@
+<template>
+    <lightning-card title="견적서 생성" icon-name="doctype:pdf">
+        <div class="slds-p-around_medium">
+            
+            <!-- 제품 정보 -->
+            <div class="slds-box slds-theme_shade slds-m-bottom_medium">
+                <div class="slds-text-heading_small slds-m-bottom_x-small">제품 정보</div>
+                <template if:true={productName}>
+                    <div><strong>제품:</strong> {productName}</div>
+                    <div><strong>가격:</strong> {formattedProductPrice}</div>
+                </template>
+            </div>
+            
+            <!-- 디자인 옵션 선택 -->
+            <div class="slds-m-bottom_medium">
+                <div class="slds-text-heading_small slds-m-bottom_small">디자인 옵션</div>
+                <div class="design-options">
+                    <template for:each={designOptionsWithFormattedPrice} for:item="option">
+                        <div key={option.value} class="slds-m-bottom_x-small">
+                            <lightning-input 
+                                type="checkbox"
+                                label={option.value}
+                                value={option.value}
+                                checked={option.selected}
+                                onchange={handleDesignTypeChange}
+                            ></lightning-input>
+                        </div>
+                    </template>
+                </div>
+            </div>
+            
+            <!-- 시안 목록 -->
+            <div class="slds-m-bottom_medium">
+                <div class="slds-text-heading_small slds-m-bottom_small">
+                    시안 목록
+                </div>
+                <template if:true={hasDesignFiles}>
+                    <div class="design-files-grid">
+                        <template for:each={designFiles} for:item="file">
+                            <div 
+                                key={file.id}
+                                class="design-file-item"
+                                draggable="true"
+                                ondragstart={handleDragStart}
+                                data-id={file.id}
+                            >
+                                <img src={file.downloadUrl} alt={file.title} />
+                                <div class="file-title">{file.title}</div>
+                            </div>
+                        </template>
+                    </div>
+                </template>
+                <template if:false={hasDesignFiles}>
+                    <div class="slds-text-color_weak slds-text-align_center slds-p-around_medium">
+                        업로드된 시안이 없습니다. Files 탭에서 이미지를 업로드해주세요.
+                    </div>
+                </template>
+            </div>
+            
+            <!-- 최종 시안 드롭 영역 -->
+            <div class="slds-m-bottom_medium">
+                <div class="slds-text-heading_small slds-m-bottom_small">최종 시안</div>
+                <div 
+                    class={dropZoneClass}
+                    ondrop={handleDrop}
+                    ondragover={handleDragOver}
+                    ondragleave={handleDragLeave}
+                >
+                    <template if:true={hasSelectedDesign}>
+                        <img src={selectedDesignUrl} alt="Selected Design" class="selected-design-preview" />
+                        <lightning-button 
+                            label="선택 취소"
+                            variant="destructive-text"
+                            onclick={handleRemoveDesign}
+                            class="slds-m-top_small"
+                        ></lightning-button>
+                    </template>
+                    <template if:false={hasSelectedDesign}>
+                        <lightning-icon icon-name="utility:image" size="large"></lightning-icon>
+                        <div class="slds-m-top_small slds-text-color_weak">
+                            최종 시안을 드래그하세요
+                        </div>
+                    </template>
+                </div>
+            </div>
+            
+            <!-- 금액 계산 -->
+            <div class="slds-box slds-theme_default slds-m-bottom_medium">
+                <table class="slds-table slds-table_borderless">
+                    <tbody>
+                        <tr>
+                            <td class="slds-p-vertical_x-small">제품 가격</td>
+                            <td class="slds-text-align_right slds-p-vertical_x-small">{formattedProductPrice}</td>
+                        </tr>
+                        <template for:each={selectedDesignTypes} for:item="type">
+                            <tr key={type.value}>
+                                <td class="slds-p-vertical_x-small">{type.label}</td>
+                                <td class="slds-text-align_right slds-p-vertical_x-small">{type.formattedPrice}</td>
+                            </tr>
+                        </template>
+                        <tr class="total-row">
+                            <td class="slds-p-vertical_x-small"><strong>총액</strong></td>
+                            <td class="slds-text-align_right slds-p-vertical_x-small"><strong>{formattedTotalAmount}</strong></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- 생성 버튼 -->
+            <div class="slds-text-align_center">
+                <lightning-button 
+                    label="견적서 생성"
+                    variant="brand"
+                    onclick={handleGenerateQuotation}
+                    disabled={isGenerateDisabled}
+                    class="slds-m-top_small"
+                ></lightning-button>
+            </div>
+            
+        </div>
+    </lightning-card>
+</template>

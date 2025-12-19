@@ -6,8 +6,8 @@ export default class ProductCustomizer extends LightningElement {
     
     @api selectedProductId = '';
     @api initials = '';
-    @api selectedColor = '#FFD700';
-    @api selectedPosition = 'center';
+    @api selectedColor = '#ffd900ff';
+    @api selectedPosition = 'center-top';
     
     productImageUrl;
     _initialized = false;
@@ -46,10 +46,8 @@ export default class ProductCustomizer extends LightningElement {
     
     get positionOptions() {
         return [
-            { label: '왼쪽 가슴', value: 'left-chest' },
-            { label: '오른쪽 가슴', value: 'right-chest' },
-            { label: '중앙', value: 'center' },
-            { label: '등 상단', value: 'back-top' }
+            { label: '상단', value: 'center-top' },
+            { label: '하단', value: 'center-bottom' }
         ];
     }
     
@@ -63,12 +61,10 @@ export default class ProductCustomizer extends LightningElement {
     
     get positionCoordinates() {
         const coords = {
-            'left-chest': { top: '30%', left: '20%', size: '36px' },
-            'right-chest': { top: '30%', left: '80%', size: '36px' },
-            'center': { top: '50%', left: '50%', size: '42px' },
-            'back-top': { top: '20%', left: '50%', size: '38px' }
+            'center-top': { top: '30%', left: '50%', size: '30px' },
+            'center-bottom': { top: '75%', left: '50%', size: '30px' }
         };
-        return coords[this.selectedPosition] || { top: '50%', left: '50%', size: '36px' };
+        return coords[this.selectedPosition] || { top: '30%', left: '50%', size: '30px' };
     }
     
     get initialsStyleString() {
