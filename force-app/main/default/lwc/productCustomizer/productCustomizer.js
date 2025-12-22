@@ -1,9 +1,15 @@
 import { LightningElement, api, wire } from 'lwc';
 import { FlowAttributeChangeEvent } from 'lightning/flowSupport';
+import { getPicklistValues } from 'lightning/uiObjectInfoApi';
+import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import getProductImage from '@salesforce/apex/ProductCustomizerController.getProductImage';
+
+import PRODUCT_OBJECT from '@salesforce/schema/Product2';
+import FAMILY_FIELD from '@salesforce/schema/Product2.Family';
 
 export default class ProductCustomizer extends LightningElement {
     
+    @api selectedFamily = '';
     @api selectedProductId = '';
     @api initials = '';
     @api selectedColor = '#ffd900ff';
@@ -11,6 +17,27 @@ export default class ProductCustomizer extends LightningElement {
     
     productImageUrl;
     _initialized = false;
+    familyOptions = [];
+    
+    // Product2 Object Info 가져오기
+    @wire(getObjectInfo, { objectApiName: PRODUCT_OBJECT })
+    productObjectInfo;
+    
+    // Family Picklist 값 가져오기
+    @wire(getPicklistValues, {
+        recordTypeId: '$productObjectInfo.data.defaultRecordTypeId',
+        fieldApiName: FAMILY_FIELD
+    })
+    wiredFamilyPicklist({ data, error }) {
+        if (data) {
+            this.familyOptions = data.values.map(item => ({
+                label: item.label,
+                value: item.value
+            }));
+        } else if (error) {
+            console.error('Family picklist 로딩 에러:', error);
+        }
+    }
     
     // 제품 이미지 가져오기
     @wire(getProductImage, { productId: '$selectedProductId' })
@@ -40,8 +67,26 @@ export default class ProductCustomizer extends LightningElement {
         this.dispatchEvent(new FlowAttributeChangeEvent(attributeName, value));
     }
     
+    // Getters
+    get hasFamilySelected() {
+        return this.selectedFamily && this.selectedFamily.length > 0;
+    }
+    
     get hasProductSelected() {
         return this.selectedProductId && this.selectedProductId.length > 0;
+    }
+    
+    get productFilter() {
+        // Family로 Product2 필터링
+        return {
+            criteria: [
+                {
+                    fieldPath: 'Family',
+                    operator: 'eq',
+                    value: this.selectedFamily
+                }
+            ]
+        };
     }
     
     get positionOptions() {
@@ -72,9 +117,20 @@ export default class ProductCustomizer extends LightningElement {
         return `position: absolute; top: ${pos.top}; left: ${pos.left}; color: ${this.selectedColor}; font-size: ${pos.size}; font-weight: bold; transform: translate(-50%, -50%); text-shadow: 2px 2px 4px rgba(0,0,0,0.3); pointer-events: none;`;
     }
     
+    // Event Handlers
+    handleFamilyChange(event) {
+        this.selectedFamily = event.detail.value;
+        this.selectedProductId = ''; // 카테고리 변경 시 제품 선택 초기화
+        this.productImageUrl = null;
+        this._initialized = false;
+        
+        this.notifyFlow('selectedFamily', this.selectedFamily);
+        this.notifyFlow('selectedProductId', ''); // 제품 초기화
+    }
+    
     handleProductSelect(event) {
         this.selectedProductId = event.detail.recordId;
-        this.selectedPosition = 'center';
+        this.selectedPosition = 'center-top';
         this._initialized = false; // 새 제품 선택 시 초기화
         
         this.notifyFlow('selectedProductId', this.selectedProductId);
