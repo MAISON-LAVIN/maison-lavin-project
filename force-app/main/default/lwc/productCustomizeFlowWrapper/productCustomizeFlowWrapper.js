@@ -3,31 +3,46 @@ import { CurrentPageReference } from 'lightning/navigation';
 
 export default class ProductCustomizeFlowWrapper extends LightningElement {
   userEmail;
-  flowStarted = false;
+  lastStartedEmail;
 
   @wire(CurrentPageReference)
   setCurrentPageReference(pageRef) {
     if (!pageRef) return;
 
-    // Experience에서 queryStringParameters로 오는 경우가 많음
     const email =
       (pageRef.state && (pageRef.state.email || pageRef.state.userEmail)) || '';
 
-    this.userEmail = (email || '').trim();
+    const normalized = (email || '').trim();
 
-    // 이메일이 있고, 아직 Flow 시작 안 했으면 시작
-    if (this.userEmail && !this.flowStarted) {
-      this.flowStarted = true;
+    if (!normalized) return;
 
-      const inputVariables = [
-        { name: 'userEmail', type: 'String', value: this.userEmail }
-      ];
+    // 같은 이메일로는 재시작하지 않음
+    if (this.lastStartedEmail === normalized) return;
 
-      // 렌더 이후 flow 엘리먼트를 잡아서 startFlow
-      Promise.resolve().then(() => {
-        const flow = this.template.querySelector('lightning-flow');
+    this.userEmail = normalized;
+    this.lastStartedEmail = normalized;
+
+    const inputVariables = [
+      { name: 'userEmail', type: 'String', value: this.userEmail }
+    ];
+
+    Promise.resolve().then(() => {
+      const flow = this.template.querySelector('lightning-flow');
+      if (!flow) return;
+
+      try {
         flow.startFlow('Product_Customization_Order', inputVariables);
-      });
-    }
+      } catch (e) {
+        // 필요하면 콘솔로만 확인
+        // eslint-disable-next-line no-console
+        console.error('Failed to start flow:', e);
+      }
+    });
+  }
+
+  handleStatusChange(event) {
+    // eslint-disable-next-line no-console
+    console.log('Flow status:', event.detail.status);
+    // FINISHED / FINISHED_SCREEN / ERROR 등을 여기서 확인 가능
   }
 }

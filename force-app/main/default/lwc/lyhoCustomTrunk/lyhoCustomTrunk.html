@@ -1,0 +1,154 @@
+<template>
+  <div class="page">
+    <header class="header-wrap">
+      <div class="gnb">
+        <div class="gnb-left">
+          <div class="nav-btn">
+            <svg class="icon-svg" viewBox="0 0 24 24"><path d="M3 12h18M3 6h18M3 18h18"/></svg>
+            메뉴
+          </div>
+          <div class="nav-btn">
+            <svg class="icon-svg" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+            검색
+          </div>
+        </div>
+
+        <div class="logo">MAISON LAVIN</div>
+
+        <div class="gnb-right">
+          <span style="cursor:pointer;">클라이언트 서비스</span>
+
+          <div class="icon-group">
+            <svg class="icon-svg" style="cursor:pointer;" viewBox="0 0 24 24"><path d="M20.8 4.6a5.5 5.5 0 0 0-7.7 0l-1.1 1-1-1a5.5 5.5 0 0 0-7.8 7.8l1 1 7.8 7.8 7.8-7.8 1-1a5.5 5.5 0 0 0 0-7.8z"/></svg>
+            <svg class="icon-svg" style="cursor:pointer;" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <div class="bag-wrap" style="cursor:pointer;">
+              <svg class="icon-svg" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+              <span class="badge">0</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="lnb"></div>
+    </header>
+
+    <main class="main-vv">
+      <div class="main-vv__inner">
+        <div class="main-vv__topbar">
+          <div class="main-vv__dropdown">
+            커스터마이징 전체 보기
+            <svg class="ico-chev" viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </div>
+          <button class="main-vv__filter">
+            필터
+            <svg class="ico-filter" viewBox="0 0 24 24">
+              <path d="M4 6h16M4 12h16M4 18h16M8 4v4M16 10v4M10 16v4"/>
+            </svg>
+          </button>
+        </div>
+
+        <div class="main-vv__cats">
+          <div class="main-vv__cat-item"><div class="main-vv__cat-placeholder"></div><span class="main-vv__cat-label">핸드백</span></div>
+          <div class="main-vv__cat-item"><div class="main-vv__cat-placeholder"></div><span class="main-vv__cat-label">지갑 및 가죽소품</span></div>
+          <div class="main-vv__cat-item"><div class="main-vv__cat-placeholder"></div><span class="main-vv__cat-label">트래블</span></div>
+          <div class="main-vv__cat-item"><div class="main-vv__cat-placeholder"></div><span class="main-vv__cat-label">주얼리</span></div>
+          <div class="main-vv__cat-item"><div class="main-vv__cat-placeholder"></div><span class="main-vv__cat-label">향수</span></div>
+        </div>
+
+        <div class="main-vv__hero">
+          <h1 class="main-vv__title">Mon Maison Lavin</h1>
+          <p class="main-vv__desc">
+            메종 라빈의 맞춤 제작의 전통을 경험해 보세요. 원하는 가죽 제품과 트래블 아이템을 선택하고,
+            이니셜, 색상을 다양하게 조합해 오직 나만의 시그니처 아이템을 완성할 수 있습니다.
+          </p>
+        </div>
+      </div>
+
+      <div class="slider-wrapper">
+        <button class="slider-nav prev" id="btnPrev" lwc:ref="btnPrev">
+          <svg class="nav-icon" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="slider-nav next" id="btnNext" lwc:ref="btnNext">
+          <svg class="nav-icon" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+        </button>
+
+        <div class="slider-container" id="sliderContainer" lwc:ref="sliderContainer">
+          <!-- ✅ JS로 카드 DOM을 직접 넣는 영역이라 manual 필요 -->
+          <div class="slider-track" id="track" lwc:dom="manual" lwc:ref="track"></div>
+        </div>
+      </div>
+
+      <section class="after-section">
+        <div class="after-section__inner">
+          <h2 class="after-title">커스터마이징의 미학</h2>
+          <p class="after-desc">메종 라빈의 시그니처 제품들에 특별한 디테일을 더해 나만의 감성을 담아보세요.</p>
+        </div>
+      </section>
+
+      <section class="after-media">
+        <div class="after-media__img" role="img" aria-label="커스터마이징 소개 이미지 자리"></div>
+      </section>
+
+      <section class="after-more" aria-label="더보기">
+        <div class="after-more__inner">
+          <button class="after-more__btn" type="button">더보기</button>
+        </div>
+      </section>
+
+      <div class="after-media-spacer"></div>
+    </main>
+
+    <footer class="footer">
+      <div class="f-wrap">
+        <div class="f-cols">
+          <div class="f-sec">
+            <div class="f-h">도움말</div>
+            <a class="f-a">자주 묻는 질문</a>
+            <a class="f-a">제품 관리</a>
+            <a class="f-a">매장정보</a>
+          </div>
+          <div class="f-sec">
+            <div class="f-h">서비스</div>
+            <a class="f-a">수리</a>
+            <a class="f-a">메종라빈 기프트</a>
+            <a class="f-a">커스터마이징</a>
+          </div>
+          <div class="f-sec">
+            <div class="f-h">메종라빈 소개</div>
+            <a class="f-a">패션쇼</a>
+            <a class="f-a">예술 & 문화</a>
+            <a class="f-a">지속가능성</a>
+          </div>
+          <div class="f-sec">
+            <div class="f-h">연결</div>
+            <a class="f-a">뉴스레터 구독</a>
+            <a class="f-a">소셜 미디어</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="f-bottom-full-width">
+        <div class="f-wrap">
+          <div class="f-btm">
+            <div class="f-btm-flex">
+              <div class="f-info">
+                배송지: 대한민국<br><br>
+                메종라빈코리아(유) | 대표이사: 데이빗<br>
+                서울 XX구 XXX 100 XX타워 XX층 | 사업자등록번호: XXX-XX-XXXXX | 사업자정보확인<br>
+                통신판매신고번호: XXXX-서울XX구-XXXX | 호스팅 서비스: Salesforce | 고객센터: 02-XXXX-XXXX
+              </div>
+              <div class="f-legal-links">
+                <a class="f-legal-link">사이트맵</a>
+                <a class="f-legal-link">법적고지</a>
+                <a class="f-legal-link bold">개인정보처리방침</a>
+              </div>
+            </div>
+            <div class="f-logo">MAISON LAVIN</div>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </div>
+</template>
