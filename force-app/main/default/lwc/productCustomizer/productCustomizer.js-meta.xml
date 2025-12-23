@@ -7,6 +7,7 @@
     </targets>
     <targetConfigs>
         <targetConfig targets="lightning__FlowScreen">
+            <property name="selectedFamily" type="String" label="Selected Family" role="outputOnly"/>
             <property name="selectedProductId" type="String" label="Selected Product ID" role="outputOnly"/>
             <property name="initials" type="String" label="Initials" role="outputOnly"/>
             <property name="selectedColor" type="String" label="Selected Color" role="outputOnly"/>

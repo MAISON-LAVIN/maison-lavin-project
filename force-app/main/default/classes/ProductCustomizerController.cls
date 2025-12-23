@@ -54,4 +54,40 @@ public with sharing class ProductCustomizerController {
             ORDER BY Name
         ];
     }
+
+    // 선택 가능한 매장 목록 조회
+    @AuraEnabled(cacheable=true)
+public static List<Store__c> getAvailableStores() {
+    try {
+        return [
+            SELECT Id, Name, Store_Code__c, Store_Address__c
+            FROM Store__c
+            WHERE IsActive__c = true
+            ORDER BY Name ASC
+        ];
+        
+    } catch (Exception e) {
+        throw new AuraHandledException('매장 목록을 불러올 수 없습니다: ' + e.getMessage());
+    }
+}
+
+    // Product Family 목록 가져오기
+    @AuraEnabled(cacheable=true)
+public static List<Map<String, String>> getProductFamilies() {
+    List<Map<String, String>> options = new List<Map<String, String>>();
+    
+    Schema.DescribeFieldResult fieldResult = Product2.Family.getDescribe();
+    List<Schema.PicklistEntry> picklistValues = fieldResult.getPicklistValues();
+    
+    for (Schema.PicklistEntry entry : picklistValues) {
+        if (entry.isActive()) {
+            Map<String, String> option = new Map<String, String>();
+            option.put('label', entry.getLabel());
+            option.put('value', entry.getValue());
+            options.add(option);
+        }
+    }
+    
+    return options;
+}
 }

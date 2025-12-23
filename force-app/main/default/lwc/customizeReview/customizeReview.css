@@ -1,0 +1,381 @@
+/* 카드 전체 너비 제한 - 강제 적용 */
+:host {
+    display: block;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+}
+
+/* Lightning Card 스타일 오버라이드 */
+lightning-card {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+}
+
+/* 카드 내부 padding 강제 */
+.slds-p-around_medium {
+    padding: 20px !important;
+}
+
+/* 전체 레이아웃 - 강제로 좌우 배치 */
+.slds-grid {
+    display: flex !important;
+    flex-wrap: nowrap !important;
+    gap: 20px !important;
+    margin: 0 !important;
+}
+
+/* 왼쪽 컬럼 (미리보기) - 강제 */
+.slds-col.slds-size_1-of-1.slds-medium-size_1-of-2:nth-child(1) {
+    flex: 0 0 45% !important;
+    max-width: 45% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* 오른쪽 컬럼 (내용) - 강제 */
+.slds-col.slds-size_1-of-1.slds-medium-size_1-of-2:nth-child(2) {
+    flex: 0 0 55% !important;
+    max-width: 55% !important;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+/* 리뷰 섹션 */
+.review-section {
+    padding: 16px !important;
+    background-color: #fafaf9 !important;
+    border-radius: 8px !important;
+    border: 1px solid #e5e5e5 !important;
+    margin-bottom: 20px !important;
+    box-sizing: border-box !important;
+}
+
+/* 리뷰 아이템 */
+.review-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 6px 0 !important;
+}
+
+.review-label {
+    font-weight: 400;
+    color: #706e6b;
+    font-size: 0.875rem;
+}
+
+.review-value {
+    color: #080707;
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+/* 색상 프리뷰 */
+.color-preview {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+/* 미리보기 섹션 */
+.preview-section {
+    background-color: #ffffff !important;
+    padding: 16px !important;
+    border-radius: 8px !important;
+    border: 1px solid #e5e5e5 !important;
+    box-sizing: border-box !important;
+}
+
+/* 미리보기 컨테이너 */
+.preview-container {
+    position: relative;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto;
+    background-color: white;
+    border: 2px solid #dddbda;
+    border-radius: 8px;
+    overflow: hidden;
+    box-sizing: border-box !important;
+}
+
+/* 제품 이미지 */
+.product-image {
+    width: 100% !important;
+    max-height: 400px !important;
+    object-fit: contain !important;
+    display: block !important;
+}
+
+/* 이미지 로딩 플레이스홀더 */
+.image-placeholder {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f3f3f3;
+}
+
+/* 이니셜 오버레이 */
+.initials-overlay {
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+}
+
+/* 매장 선택 섹션 */
+.store-selection {
+    border-top: 1px solid #e5e5e5 !important;
+    padding-top: 16px !important;
+    margin-top: 0 !important;
+    box-sizing: border-box !important;
+}
+
+/* 매장 선택 버튼 */
+.store-select-button {
+    border: 2px solid #0176d3 !important;
+    border-radius: 8px !important;
+    padding: 14px !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: white !important;
+    box-sizing: border-box !important;
+}
+
+.store-select-button:hover {
+    background-color: #f3f3f3 !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1) !important;
+}
+
+.store-button-content {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.store-button-text {
+    flex: 1;
+}
+
+.store-button-title {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #080707;
+}
+
+.store-button-subtitle {
+    font-size: 0.8rem;
+    color: #706e6b;
+    margin-top: 2px;
+}
+
+/* 선택된 매장 */
+.store-selected {
+    border: 2px solid #2e844a !important;
+    border-radius: 8px !important;
+    padding: 14px !important;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: #f0f9f4 !important;
+    box-sizing: border-box !important;
+}
+
+.store-selected:hover {
+    background-color: #e8f7ee !important;
+    box-shadow: 0 2px 8px rgba(46, 132, 74, 0.2) !important;
+}
+
+.store-selected-content {
+    display: flex !important;
+    align-items: center !important;
+    gap: 10px !important;
+}
+
+.store-selected-info {
+    flex: 1;
+}
+
+.store-selected-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #080707;
+}
+
+.store-selected-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 2px;
+    font-size: 0.8rem;
+    color: #2e844a;
+}
+
+/* 상태 점 (초록색) */
+.status-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #2e844a;
+    display: inline-block;
+}
+
+/* 모달 */
+.slds-modal__container {
+    max-width: 600px;
+}
+
+/* 매장 목록 */
+.store-list {
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+/* 매장 아이템 */
+.store-item {
+    border: 1px solid #dddbda;
+    border-radius: 8px;
+    padding: 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: white;
+}
+
+.store-item:hover {
+    border-color: #0176d3;
+    background-color: #f3f3f3;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.store-item:active {
+    transform: scale(0.98);
+}
+
+.store-item-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.store-item-info {
+    flex: 1;
+}
+
+.store-item-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #080707;
+    margin-bottom: 4px;
+}
+
+.store-item-address {
+    font-size: 0.875rem;
+    color: #706e6b;
+}
+
+.store-item-status {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: 12px;
+}
+
+.status-text {
+    font-size: 0.875rem;
+    color: #2e844a;
+    white-space: nowrap;
+}
+
+/* 스크롤바 스타일 */
+.store-list::-webkit-scrollbar {
+    width: 8px;
+}
+
+.store-list::-webkit-scrollbar-track {
+    background: #f3f3f3;
+    border-radius: 4px;
+}
+
+.store-list::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.store-list::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* 반응형 - 작은 화면에서만 세로 배치 */
+@media (max-width: 768px) {
+    :host {
+        max-width: 100% !important;
+    }
+    
+    lightning-card {
+        max-width: 100% !important;
+    }
+    
+    .slds-grid {
+        flex-wrap: wrap !important;
+        flex-direction: column !important;
+    }
+    
+    .slds-col.slds-size_1-of-1.slds-medium-size_1-of-2:nth-child(1),
+    .slds-col.slds-size_1-of-1.slds-medium-size_1-of-2:nth-child(2) {
+        flex: 1 1 100% !important;
+        max-width: 100% !important;
+    }
+    
+    .preview-section {
+        order: -1;
+    }
+    
+    .preview-container {
+        max-width: 100%;
+    }
+    
+    .store-list {
+        max-height: 400px;
+    }
+    
+    .review-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+    }
+}
+
+/* 모달 애니메이션 */
+.slds-modal {
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Lightning 아이콘 색상 */
+lightning-icon {
+    color: #0176d3;
+}
+
+.store-selected lightning-icon {
+    color: #2e844a;
+}
+
+/* SLDS Gutters 덮어쓰기 */
+.slds-gutters {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.slds-gutters > .slds-col {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+}

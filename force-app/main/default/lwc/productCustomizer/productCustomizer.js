@@ -1,97 +1,175 @@
-import { LightningElement, api, wire } from 'lwc';
+import { LightningElement, api, track, wire } from 'lwc';
 import { FlowAttributeChangeEvent } from 'lightning/flowSupport';
 import getProductImage from '@salesforce/apex/ProductCustomizerController.getProductImage';
+import getProductFamilies from '@salesforce/apex/ProductCustomizerController.getProductFamilies';
 
 export default class ProductCustomizer extends LightningElement {
-    
+    @api selectedFamily = '';
     @api selectedProductId = '';
-    @api initials = '';
     @api selectedColor = '#ffd900ff';
     @api selectedPosition = 'center-top';
+    @api initials = '';
     
-    productImageUrl;
-    _initialized = false;
+    @track productImageUrl = '';
+    @track showInitialOptions = false;
+    @track showPatchOptions = false;
+    @track showEmbroideryOptions = false;
+    @track showStudOptions = false;
+    @track categoryOptions = [];
     
-    // 제품 이미지 가져오기
-    @wire(getProductImage, { productId: '$selectedProductId' })
-    wiredProductImage({ data, error }) {
+    positionOptions = [
+        { label: '상단', value: 'center-top' },
+        { label: '하단', value: 'center-bottom' }
+    ];
+    
+    // Family 목록 동적 로드
+    @wire(getProductFamilies)
+    wiredFamilies({ data, error }) {
         if (data) {
-            this.productImageUrl = data;
-            this.initializeDefaults();
+            this.categoryOptions = data;
         } else if (error) {
-            console.error('이미지 로딩 에러:', error);
-            this.productImageUrl = null;
+            console.error('Error loading families:', error);
+            // Fallback: 하드코딩된 값 사용
+            this.categoryOptions = [
+                { label: '트래블', value: 'Travel' },
+                { label: '비즈니스', value: 'Business' }
+            ];
         }
     }
     
-    // 기본값 초기화 (한 번만 실행)
-    initializeDefaults() {
-        if (!this._initialized && this.hasProductSelected) {
-            this._initialized = true;
-            
-            // 모든 기본값을 한 번에 전달
-            this.notifyFlow('selectedPosition', this.selectedPosition);
-            this.notifyFlow('selectedColor', this.selectedColor);
+    connectedCallback() {
+        this.notifyFlow('selectedColor', this.selectedColor);
+        this.notifyFlow('selectedPosition', this.selectedPosition);
+    }
+    
+    // 카테고리 변경
+    handleCategoryChange(event) {
+        this.selectedFamily = event.detail.value;
+        this.selectedProductId = '';
+        this.productImageUrl = '';
+        this.notifyFlow('selectedFamily', this.selectedFamily);
+    }
+    
+    // 제품 선택
+    handleProductSelect(event) {
+        this.selectedProductId = event.detail.recordId;
+        this.selectedPosition = 'center-top';
+        
+        // 제품 이미지 로드
+        this.loadProductImage();
+        
+        this.notifyFlow('selectedProductId', this.selectedProductId);
+        this.notifyFlow('selectedPosition', this.selectedPosition);
+    }
+    
+    // 제품 이미지 로드
+    loadProductImage() {
+        if (!this.selectedProductId) {
+            this.productImageUrl = '';
+            return;
+        }
+        
+        getProductImage({ productId: this.selectedProductId })
+            .then(imageUrl => {
+                if (imageUrl) {
+                    this.productImageUrl = imageUrl;
+                } else {
+                    this.productImageUrl = '';
+                    console.log('No image found for product');
+                }
+            })
+            .catch(error => {
+                console.error('Error loading product image:', error);
+                this.productImageUrl = '';
+            });
+    }
+    
+    // 이니셜 토글
+    handleInitialToggle() {
+        this.showInitialOptions = !this.showInitialOptions;
+        if (!this.showInitialOptions) {
+            this.initials = '';
+            this.notifyFlow('initials', '');
         }
     }
     
-    // Flow에 값 전달하는 헬퍼 메서드
+    // 패치 토글
+    handlePatchToggle() {
+        this.showPatchOptions = !this.showPatchOptions;
+    }
+
+    // 자수 토글
+    handleEmbroideryToggle() {
+        this.showEmbroideryOptions = !this.showEmbroideryOptions;
+    }
+
+    // 스터드 토글
+    handleStudToggle() {
+        this.showStudOptions = !this.showStudOptions;
+    }
+    
+    // 이니셜 입력
+    handleInitialsChange(event) {
+        this.initials = event.detail.value.toUpperCase();
+        this.notifyFlow('initials', this.initials);
+    }
+    
+    // 색상 변경
+    handleColorChange(event) {
+        this.selectedColor = event.detail.value;
+        this.notifyFlow('selectedColor', this.selectedColor);
+    }
+    
+    // 위치 변경
+    handlePositionChange(event) {
+        this.selectedPosition = event.detail.value;
+        this.notifyFlow('selectedPosition', this.selectedPosition);
+    }
+    
+    // Flow에 알림
     notifyFlow(attributeName, value) {
-        this.dispatchEvent(new FlowAttributeChangeEvent(attributeName, value));
+        const attributeChangeEvent = new FlowAttributeChangeEvent(attributeName, value);
+        this.dispatchEvent(attributeChangeEvent);
     }
     
-    get hasProductSelected() {
-        return this.selectedProductId && this.selectedProductId.length > 0;
-    }
-    
-    get positionOptions() {
-        return [
-            { label: '상단', value: 'center-top' },
-            { label: '하단', value: 'center-bottom' }
-        ];
-    }
-    
-    get hasPositionOptions() {
-        return this.hasProductSelected && this.positionOptions.length > 0;
+    // Getters
+    get productFilter() {
+        return {
+            criteria: [
+                {
+                    fieldPath: 'Family',
+                    operator: 'eq',
+                    value: this.selectedFamily
+                }
+            ]
+        };
     }
     
     get showInitials() {
         return this.initials && this.initials.length > 0;
     }
     
-    get positionCoordinates() {
-        const coords = {
-            'center-top': { top: '30%', left: '50%', size: '30px' },
-            'center-bottom': { top: '75%', left: '50%', size: '30px' }
-        };
-        return coords[this.selectedPosition] || { top: '30%', left: '50%', size: '30px' };
+    get initialButtonVariant() {
+        return this.showInitialOptions ? 'brand' : 'neutral';
     }
     
-    get initialsStyleString() {
-        const pos = this.positionCoordinates;
-        return `position: absolute; top: ${pos.top}; left: ${pos.left}; color: ${this.selectedColor}; font-size: ${pos.size}; font-weight: bold; transform: translate(-50%, -50%); text-shadow: 2px 2px 4px rgba(0,0,0,0.3); pointer-events: none;`;
+    get patchButtonVariant() {
+        return this.showPatchOptions ? 'brand' : 'neutral';
+    }
+
+    get embroideryButtonVariant() {
+        return this.showEmbroideryOptions ? 'brand' : 'neutral';
+    }
+
+    get studButtonVariant() {
+        return this.showStudOptions ? 'brand' : 'neutral';
     }
     
-    handleProductSelect(event) {
-        this.selectedProductId = event.detail.recordId;
-        this.selectedPosition = 'center';
-        this._initialized = false; // 새 제품 선택 시 초기화
-        
-        this.notifyFlow('selectedProductId', this.selectedProductId);
+    get initialsOverlayClass() {
+        return `initials-overlay position-${this.selectedPosition}`;
     }
     
-    handleInitialsChange(event) {
-        this.initials = event.target.value.toUpperCase();
-        this.notifyFlow('initials', this.initials);
-    }
-    
-    handleColorChange(event) {
-        this.selectedColor = event.detail.value;
-        this.notifyFlow('selectedColor', this.selectedColor);
-    }
-    
-    handlePositionChange(event) {
-        this.selectedPosition = event.detail.value;
-        this.notifyFlow('selectedPosition', this.selectedPosition);
+    get initialsStyle() {
+        return `color: ${this.selectedColor}; font-size: 24px; font-weight: bold;`;
     }
 }

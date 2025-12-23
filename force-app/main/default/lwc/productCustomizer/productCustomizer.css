@@ -1,60 +1,103 @@
-/* 제품 선택 섹션 */
-.product-selection {
-    border-bottom: 1px solid #dddbda;
-    padding-bottom: 20px;
+/* 컨테이너 */
+:host {
+    display: block;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-/* 입력 섹션 */
-.input-section {
-    margin-bottom: 30px;
+/* 그리드 조정 */
+.slds-grid {
+    display: flex !important;
+    flex-wrap: wrap !important;
+    gap: 20px !important;
 }
 
-/* 미리보기 섹션 */
-.preview-section {
-    background-color: #f4f6f9;
-    padding: 20px;
-    border-radius: 8px;
+.slds-col.slds-size_1-of-1.slds-medium-size_1-of-2 {
+    flex: 0 0 48% !important;
+    max-width: 48% !important;
 }
 
 /* 미리보기 컨테이너 */
 .preview-container {
+    position: sticky;
+    top: 20px;
+}
+
+.preview-box {
+    background: #f3f3f3;
+    border-radius: 8px;
+    padding: 20px;
+    min-height: 400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.product-preview {
     position: relative;
     width: 100%;
-    max-width: 400px;
-    margin: 0 auto;
-    background-color: white;
-    border: 2px solid #dddbda;
-    border-radius: 4px;
-    overflow: hidden;
+    max-width: 300px;
 }
 
-/* 제품 이미지 */
-.product-image {
+.product-preview img {
     width: 100%;
     height: auto;
-    display: block;
+    border-radius: 4px;
 }
 
-/* 이미지 로딩 플레이스홀더 */
-.image-placeholder {
-    width: 100%;
-    height: 300px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f3f3f3;
+.placeholder {
+    text-align: center;
+    color: #706e6b;
 }
 
 /* 이니셜 오버레이 */
 .initials-overlay {
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
+    position: absolute;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+}
+
+.initials-overlay.position-center-top {
+    top: 25%;
+}
+
+.initials-overlay.position-center-bottom {
+    bottom: 20%;
+}
+
+/* 옵션 버튼들 */
+.option-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+/* 옵션 패널 */
+.option-panel {
+    background: #fafaf9;
+    padding: 16px;
+    border-radius: 4px;
+}
+
+/* 커스터마이징 섹션 */
+.customization-section {
+    background: white;
+    border: 1px solid #dddbda;
+    border-radius: 8px;
+    padding: 16px;
 }
 
 /* 반응형 */
 @media (max-width: 768px) {
+    .slds-col.slds-size_1-of-1.slds-medium-size_1-of-2 {
+        flex: 0 0 100% !important;
+        max-width: 100% !important;
+    }
+    
     .preview-container {
-        max-width: 100%;
+        position: static;
     }
 }
