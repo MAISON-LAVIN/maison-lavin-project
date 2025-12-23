@@ -1,0 +1,35 @@
+<template>
+  <div class="address-container">
+    <div class="address-row">
+      <div class="address-display">
+        <span class="address-text">{displayAddress}</span>
+      </div>
+
+      <lightning-button-icon
+        icon-name="utility:search"
+        variant="bare"
+        onclick={openAddressSearch}
+        alternative-text="주소 검색"
+        class="search-icon-button"
+      ></lightning-button-icon>
+    </div>
+
+    <template if:true={hasAddress}>
+      <div class="map-container">
+        <iframe
+          src={mapUrl}
+          class="map-iframe"
+          frameborder="0"
+          scrolling="no"
+        ></iframe>
+      </div>
+    </template>
+
+    <template if:false={hasAddress}>
+      <div class="map-placeholder">
+        <lightning-icon icon-name="utility:location" size="small"></lightning-icon>
+        <p>주소를 검색하면 지도가 표시됩니다</p>
+      </div>
+    </template>
+  </div>
+</template>

@@ -1,0 +1,94 @@
+<template>
+    <div class="container">
+        <h2>고객 정보 입력</h2>
+
+        <lightning-input
+            data-id="lastName"
+            label="성 (Last Name)"
+            required
+            value={lastName}
+            onchange={handleLastName}>
+        </lightning-input>
+
+        <lightning-input
+            data-id="firstName"
+            label="이름 (First Name)"
+            value={firstName}
+            onchange={handleFirstName}>
+        </lightning-input>
+
+        <lightning-combobox
+            data-id="salutation"
+            label="성별 (Salutation)"
+            value={salutation}
+            options={salutationOptions}
+            placeholder="선택"
+            onchange={handleSalutation}>
+        </lightning-combobox>
+
+        <lightning-input
+            data-id="phone"
+            label="연락처 (Phone)"
+            type="tel"
+            value={phone}
+            onchange={handlePhone}>
+        </lightning-input>
+
+        <lightning-input
+            data-id="email"
+            label="이메일 (Email)"
+            type="email"
+            value={email}
+            onchange={handleEmail}>
+        </lightning-input>
+
+        <div class="address-section">
+            <lightning-input
+                label="주소 (우편번호 + 전체 주소)"
+                value={shippingFullAddress}
+                readonly>
+            </lightning-input>
+
+            <lightning-button-icon
+                icon-name="utility:search"
+                alternative-text="주소 검색"
+                onclick={openAddressSearch}>
+            </lightning-button-icon>
+        </div>
+
+        <lightning-input
+            type="checkbox"
+            label="전화 수신 동의"
+            checked={telephoneOptIn}
+            onchange={handleTelephoneOptIn}>
+        </lightning-input>
+
+        <lightning-input
+            type="checkbox"
+            label="Email 수신 동의"
+            checked={emailOptIn}
+            onchange={handleEmailOptIn}>
+        </lightning-input>
+
+        <lightning-input
+            type="checkbox"
+            label="SMS 수신 동의"
+            checked={smsOptIn}
+            onchange={handleSmsOptIn}>
+        </lightning-input>
+
+        <lightning-input
+            type="checkbox"
+            label="개인정보 이용 동의"
+            checked={consentDataUsage}
+            onchange={handleConsentDataUsage}>
+        </lightning-input>
+
+        <lightning-button
+            label="저장"
+            variant="brand"
+            onclick={handleSave}
+            disabled={isSaving}>
+        </lightning-button>
+    </div>
+</template>
