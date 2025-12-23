@@ -19,6 +19,12 @@ export default class ProductCustomizer extends LightningElement {
     _initialized = false;
     familyOptions = [];
     
+    // 컴포넌트 로드 시 Default 값 즉시 전달
+    connectedCallback() {
+        this.notifyFlow('selectedColor', this.selectedColor);
+        this.notifyFlow('selectedPosition', this.selectedPosition);
+    }
+    
     // Product2 Object Info 가져오기
     @wire(getObjectInfo, { objectApiName: PRODUCT_OBJECT })
     productObjectInfo;
@@ -44,21 +50,9 @@ export default class ProductCustomizer extends LightningElement {
     wiredProductImage({ data, error }) {
         if (data) {
             this.productImageUrl = data;
-            this.initializeDefaults();
         } else if (error) {
             console.error('이미지 로딩 에러:', error);
             this.productImageUrl = null;
-        }
-    }
-    
-    // 기본값 초기화 (한 번만 실행)
-    initializeDefaults() {
-        if (!this._initialized && this.hasProductSelected) {
-            this._initialized = true;
-            
-            // 모든 기본값을 한 번에 전달
-            this.notifyFlow('selectedPosition', this.selectedPosition);
-            this.notifyFlow('selectedColor', this.selectedColor);
         }
     }
     
@@ -77,6 +71,11 @@ export default class ProductCustomizer extends LightningElement {
     }
     
     get productFilter() {
+        // Family가 선택되지 않았으면 undefined 반환
+        if (!this.selectedFamily) {
+            return undefined;
+        }
+        
         // Family로 Product2 필터링
         return {
             criteria: [
@@ -134,6 +133,8 @@ export default class ProductCustomizer extends LightningElement {
         this._initialized = false; // 새 제품 선택 시 초기화
         
         this.notifyFlow('selectedProductId', this.selectedProductId);
+        // 제품 선택 시 position도 다시 전달
+        this.notifyFlow('selectedPosition', this.selectedPosition);
     }
     
     handleInitialsChange(event) {

@@ -136,6 +136,8 @@ export default class CustomizeReview extends LightningElement {
         
         // Flow에 전달
         this.notifyFlow('selectedStoreId', this.selectedStoreId);
+        // 디버깅용
+        console.log('Selected Store ID:', this.selectedStoreId);
         
         // 모달 닫기
         this.closeStoreModal();
