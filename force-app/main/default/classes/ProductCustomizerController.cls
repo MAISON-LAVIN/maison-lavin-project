@@ -70,4 +70,24 @@ public static List<Store__c> getAvailableStores() {
         throw new AuraHandledException('매장 목록을 불러올 수 없습니다: ' + e.getMessage());
     }
 }
+
+    // Product Family 목록 가져오기
+    @AuraEnabled(cacheable=true)
+public static List<Map<String, String>> getProductFamilies() {
+    List<Map<String, String>> options = new List<Map<String, String>>();
+    
+    Schema.DescribeFieldResult fieldResult = Product2.Family.getDescribe();
+    List<Schema.PicklistEntry> picklistValues = fieldResult.getPicklistValues();
+    
+    for (Schema.PicklistEntry entry : picklistValues) {
+        if (entry.isActive()) {
+            Map<String, String> option = new Map<String, String>();
+            option.put('label', entry.getLabel());
+            option.put('value', entry.getValue());
+            options.add(option);
+        }
+    }
+    
+    return options;
+}
 }
