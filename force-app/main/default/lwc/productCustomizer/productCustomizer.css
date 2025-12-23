@@ -1,3 +1,26 @@
+/* 카드 전체 너비 제한 - Screen 2와 동일 */
+:host {
+    display: block;
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+}
+
+lightning-card {
+    max-width: 1200px !important;
+    margin: 0 auto !important;
+}
+
+/* 카드 내부 padding */
+.slds-p-around_medium {
+    padding: 20px !important;
+}
+
+/* 카테고리 선택 섹션 */
+.family-selection {
+    border-bottom: 1px solid #dddbda;
+    padding-bottom: 20px;
+}
+
 /* 제품 선택 섹션 */
 .product-selection {
     border-bottom: 1px solid #dddbda;
@@ -32,6 +55,8 @@
 .product-image {
     width: 100%;
     height: auto;
+    max-height: 400px;
+    object-fit: contain;
     display: block;
 }
 
@@ -54,6 +79,14 @@
 
 /* 반응형 */
 @media (max-width: 768px) {
+    :host {
+        max-width: 100% !important;
+    }
+    
+    lightning-card {
+        max-width: 100% !important;
+    }
+    
     .preview-container {
         max-width: 100%;
     }
