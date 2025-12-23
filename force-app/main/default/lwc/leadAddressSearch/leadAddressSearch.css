@@ -1,0 +1,60 @@
+.address-container {
+  width: 100%;
+}
+
+.address-row {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #dddbda;
+  padding: 6px 8px;
+}
+
+.address-display {
+  flex: 1;
+  min-height: 28px;
+  display: flex;
+  align-items: center;
+}
+
+.address-text {
+  color: #181818;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.address-text:empty::before {
+  content: "주소 검색 버튼을 눌러주세요";
+  color: #706e6b;
+}
+
+.search-icon-button {
+  margin-left: 8px;
+}
+
+.map-container {
+  margin-top: 12px;
+  width: 100%;
+}
+
+.map-iframe {
+  width: 100%;
+  height: 260px;
+  border: 1px solid #dddbda;
+  border-radius: 4px;
+  display: block;
+}
+
+.map-placeholder {
+  margin-top: 12px;
+  height: 260px;
+  border: 1px dashed #dddbda;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  color: #706e6b;
+  background: #fafafa;
+}
