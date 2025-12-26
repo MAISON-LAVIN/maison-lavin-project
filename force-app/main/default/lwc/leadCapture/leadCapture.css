@@ -1,30 +1,199 @@
-.wrap {
-    max-width: 720px;
-    margin: 0 auto;
-    padding: 20px;
-    border: 1px solid #e5e5e5;
-    border-radius: 6px;
-    background: #fff;
+/* =========================================================
+   Maison Lavin – Luxury Form Theme (Full CSS)
+   ========================================================= */
+
+/* ---------- Root / Theme Tokens ---------- */
+:host {
+    --ml-bg: #fbfaf8;
+    --ml-surface: #ffffff;
+    --ml-ink: #111111;
+    --ml-muted: #6f6f6f;
+    --ml-line: #e8e4df;
+    --ml-line-strong: #d9d2c9;
+    --ml-accent: #b89b5e;
+
+    --ml-radius: 6px;
+
+    display: block;
+    color: var(--ml-ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Helvetica Neue",
+        Arial, "Noto Sans KR", sans-serif;
 }
 
-.title {
-    font-size: 18px;
-    font-weight: 600;
-    margin-bottom: 16px;
+/* ---------- Page Background ---------- */
+.container {
+    background: var(--ml-bg);
+    padding: 40px 16px;
 }
+
+/* ---------- Main Form Card ---------- */
+.wrap {
+    max-width: 720px;          /* 유지 */
+    margin: 0 auto;            /* 유지 */
+    padding: 20px;             /* 유지 */
+    border: 1px solid #e5e5e5; /* 유지 */
+    border-radius: 6px;        /* 유지 */
+    background: #fff;          /* 유지 */
+
+    box-shadow: 0 10px 30px rgba(17, 17, 17, 0.06);
+    letter-spacing: 0.1px;
+}
+
+/* ---------- Title ---------- */
+.title {
+    font-size: 18px;      /* 유지 */
+    font-weight: 600;     /* 유지 */
+    margin-bottom: 16px;  /* 유지 */
+
+    font-family: "Georgia", "Times New Roman", serif;
+    text-transform: uppercase;
+    letter-spacing: 1.2px;
+    color: var(--ml-ink);
+}
+
+/* ---------- Field Spacing ---------- */
+.wrap lightning-input,
+.wrap lightning-combobox {
+    display: block;
+    margin-top: 12px;
+}
+
+/* =========================================================
+   Address (요청사항 반영)
+   - 위: '주소' 텍스트 + 검색 아이콘 (같은 줄)
+   - 아래: 사진처럼 둥근 박스 형태의 입력창
+   ========================================================= */
 
 .addressRow {
     position: relative;
     margin-top: 12px;
 }
 
-.addrBtn {
-    position: absolute;
-    right: 6px;
-    top: 34px;
-    z-index: 1;
+/* '주소' 텍스트 + 검색 아이콘 (같은 줄) */
+.addrHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 8px;
 }
 
+.addrLabel {
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: var(--ml-muted);
+    letter-spacing: 0.2px;
+}
+
+/* 헤더 오른쪽 검색 버튼 */
+.addrHeaderIconBtn {
+    width: 34px;
+    height: 34px;
+    border-radius: 999px;
+    border: 1px solid var(--ml-line);
+    background: rgba(255, 255, 255, 0.92);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 120ms ease, border-color 120ms ease, box-shadow 120ms ease;
+}
+
+.addrHeaderIconBtn:hover {
+    border-color: var(--ml-line-strong);
+    transform: translateY(-1px);
+}
+
+.addrHeaderIconBtn:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(184, 155, 94, 0.20);
+}
+
+/* 사진처럼 보이는 둥근 박스(입력창) */
+.addrInputBox {
+    border: 1px solid var(--ml-line);
+    border-radius: 18px; /* 스샷 느낌: 더 둥글게 */
+    background: var(--ml-surface);
+    padding: 10px 14px;
+}
+
+/* lightning-input 자체 테두리를 박스 안에서 제거(겉 박스만 보이게) */
+.addrInputBox {
+    --sds-c-input-color-border: transparent;
+    --sds-c-input-color-border-focus: transparent;
+    --sds-c-input-color-background: transparent;
+    --sds-c-input-radius-border: 0px;
+    --sds-c-input-shadow-focus: none;
+
+    --sds-c-input-text-color: var(--ml-ink);
+    --sds-c-input-placeholder-text-color: #9a9a9a;
+}
+
+/* 박스 전체 포커스 효과 */
+.addrInputBox:focus-within {
+    border-color: var(--ml-line-strong);
+    box-shadow: 0 0 0 3px rgba(184, 155, 94, 0.18);
+}
+
+/* ---------- Button Row ---------- */
 .btnRow {
-    margin-top: 16px;
+    margin-top: 16px; /* 유지 */
+    display: flex;
+    justify-content: flex-end;
+}
+
+/* =========================================================
+   Lightning Styling Hooks (Global)
+   ========================================================= */
+
+.wrap {
+    /* Input */
+    --sds-c-input-radius-border: 10px;
+    --sds-c-input-color-border: var(--ml-line);
+    --sds-c-input-color-border-focus: var(--ml-line-strong);
+    --sds-c-input-shadow-focus: 0 0 0 3px rgba(184, 155, 94, 0.18);
+
+    --sds-c-input-text-color: var(--ml-ink);
+    --sds-c-input-placeholder-text-color: #9a9a9a;
+
+    /* Label */
+    --sds-c-input-label-font-size: 0.78rem;
+    --sds-c-input-label-text-color: var(--ml-muted);
+    --sds-c-input-label-font-weight: 600;
+    --sds-c-input-label-line-height: 1.1;
+}
+
+/* Checkbox */
+.wrap {
+    --sds-c-checkbox-mark-color-foreground: var(--ml-ink);
+    --sds-c-checkbox-color-border: var(--ml-line);
+    --sds-c-checkbox-color-border-focus: var(--ml-line-strong);
+    --sds-c-checkbox-shadow-focus: 0 0 0 3px rgba(184, 155, 94, 0.18);
+}
+
+/* Brand Button (variant="brand") -> Black Luxury */
+.wrap {
+    --sds-c-button-brand-color-background: var(--ml-ink);
+    --sds-c-button-brand-color-background-hover: #000000;
+    --sds-c-button-brand-color-border: var(--ml-ink);
+    --sds-c-button-brand-text-color: #ffffff;
+
+    --sds-c-button-radius-border: 999px;
+    --sds-c-button-shadow-focus: 0 0 0 3px rgba(184, 155, 94, 0.20);
+    --sds-c-button-font-weight: 600;
+    --sds-c-button-line-height: 2.6rem;
+}
+
+.wrap lightning-button {
+    margin-top: 14px;
+}
+
+/* ---------- Mobile Optimization ---------- */
+@media (max-width: 480px) {
+    .container {
+        padding: 24px 12px;
+    }
+
+    .wrap {
+        padding: 16px;
+    }
 }
